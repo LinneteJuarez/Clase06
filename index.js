@@ -14,6 +14,14 @@ function updateCanvasSize() {
     CANVAS.height = CANVAS.getBoundingClientRect().height;
 }
 
+function getRandomColor(){
+    const letters = '123456789ABCDEF';
+    let color = '#';
+    for(let i = 0; i < 6; i++){
+        color += letters[Math.floor(Math.random() * 16)]
+    }
+    return color;
+}
 
 /*///// 1. Definición del círculo como una "Clase" capaz de utilizarse como template para crear múltiples objetos, en este caso "círculos" ///*/
 class Circulo {
@@ -25,7 +33,7 @@ class Circulo {
     
             A partir de aquí, la definición del objeto te va a resultar bastante familiar, es igual a lo que hemos hecho hasta ahora.
         */
-        this.borderColor = params.borderColor || "#00ff99";
+        this.borderColor = params.borderColor ||getRandomColor();
         this.borderWidth = 5;
         this.x = Math.random() * CANVAS.width;
         this.y = Math.random() * CANVAS.height;
@@ -51,6 +59,7 @@ class Circulo {
     draw() {
         CTX.strokeStyle = this.borderColor;
         CTX.lineWidth = this.borderWidth;
+        CTX.globalAlpha = 0.5;
         CTX.beginPath();
         CTX.ellipse(this.x, this.y, 30, 30, 0, 0, PI2);
         CTX.closePath();
@@ -85,7 +94,7 @@ function render() {
         Estamos usando el ciclo "for" para crear circulos dentro del render porque no hemos visto las "estructuras de datos" tipo "array" para correr el ciclo for una sola vez y guardar los nuevos objetos; lo veremos en el siguiente ejercicio.
     */
     for (let i = 0; i < 5; i++) {
-        let nuevoCirculo = new Circulo({ borderColor: "#EE0AD6" }); // Definimos un parametro para el color del borde para que estos nuevos círculos sean diferentes del que creamos fuera del ciclo for.
+        let nuevoCirculo = new Circulo({ borderColor: getRandomColor() }); // Definimos un parametro para el color del borde para que estos nuevos círculos sean diferentes del que creamos fuera del ciclo for.
 
         /*///// 4.1 Importante llamar a la función que está renderizando el objeto "circulo" en el canvas ///*/
         nuevoCirculo.draw();
