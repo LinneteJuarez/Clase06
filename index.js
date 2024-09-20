@@ -1,3 +1,7 @@
+let limiteDeCirculos = 5000;
+let contadorDeCirculos = 0;
+
+
 console.log("hola")
 const PI2 = Math.PI * 2;
 const CANVAS = document.getElementById("lienzo");
@@ -23,8 +27,8 @@ class Circulo {
         */
         this.borderColor = params.borderColor || "#00ff99";
         this.borderWidth = 5;
-        this.x = Math.random() * 1920;
-        this.y = Math.random() * 1080;
+        this.x = Math.random() * CANVAS.width;
+        this.y = Math.random() * CANVAS.height;
         /*
             Math.random() es una función que nos devuelve un valor decimal aleatorio entre 0 y 1. Al multiplicarlo por un número es como si ampliaramos el rango de ese valor aleatorio.
     
@@ -74,23 +78,33 @@ let circulo1 = new Circulo();
 
 /*///// 3. Definimos la funcion de renderizado que estaremos repitiendo usando requestAnimationFrame() ///*/
 function render() {
-    CTX.clearRect(0, 0, CANVAS.width, CANVAS.height);
+    //CTX.clearRect(0, 0, CANVAS.width, CANVAS.height);
 
     /*///// 4. Ciclo "for" para crear nuevos circulos ///*/
     /*
         Estamos usando el ciclo "for" para crear circulos dentro del render porque no hemos visto las "estructuras de datos" tipo "array" para correr el ciclo for una sola vez y guardar los nuevos objetos; lo veremos en el siguiente ejercicio.
     */
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 5; i++) {
         let nuevoCirculo = new Circulo({ borderColor: "#EE0AD6" }); // Definimos un parametro para el color del borde para que estos nuevos círculos sean diferentes del que creamos fuera del ciclo for.
 
         /*///// 4.1 Importante llamar a la función que está renderizando el objeto "circulo" en el canvas ///*/
         nuevoCirculo.draw();
+
+
+        contadorDeCirculos += 1;
     }
 
+    console.log("contadorDeCirculos", contadorDeCirculos);
+
+    //ESTABLECER CONDICION
+    if (contadorDeCirculos == limiteDeCirculos) {CTX.clearRect(0, 0, CANVAS.width, CANVAS.height);
+        contadorDeCirculos = 0;
+    }
 
     /*///// 5. Renderizamos nuestro círculo original que guardamos en la variable circulo1 ///*/
-    circulo1.draw();
+    //circulo1.draw();
 
+    
     requestAnimationFrame(render);
 }
 
